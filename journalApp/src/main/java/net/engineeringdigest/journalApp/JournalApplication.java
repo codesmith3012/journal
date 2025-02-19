@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
@@ -13,9 +14,13 @@ public class JournalApplication {
         SpringApplication.run(JournalApplication.class, args);
     }
 
-    @Bean// created a instnace of this rest template
+    @Bean// created a instance of this rest template
     public RestTemplate restTemplate() {
         return new RestTemplate();
+    }
+
+    public RedisTemplate redisTemplate() {
+        return new RedisTemplate();
     }
 }
 

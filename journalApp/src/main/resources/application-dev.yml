@@ -1,15 +1,25 @@
 server:
   port: 8081
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/journal_entries
     username: postgres
     password: 3217
     driver-class-name: org.postgresql.Driver
+
+    # OR use "host.docker.internal" if Redis is inside Docker on Mac/Windows
+
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
-  logging:
+  data:
+    redis:
+      port: 6379
+      host: localhost
+
+
+logging:
   level:
     org.springframework.security: DEBUG
