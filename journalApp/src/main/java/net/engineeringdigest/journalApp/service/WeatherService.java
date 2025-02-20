@@ -1,5 +1,6 @@
 package net.engineeringdigest.journalApp.service;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import net.engineeringdigest.journalApp.api.response.WeatherResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
@@ -10,7 +11,8 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class WeatherService {
 
-    private static final String API_KEY = "dc5b094025e17d359f20544f1df9a705";
+
+    private static final String API_KEY ="dc5b094025e17d359f20544f1df9a705";
     private static final String API_URL = "https://api.weatherstack.com/current?access_key={apiKey}&query={city}";
 
     @Autowired

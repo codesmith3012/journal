@@ -4,8 +4,8 @@ server:
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/journal_entries
-    username: postgres
-    password: 3217
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
     # OR use "host.docker.internal" if Redis is inside Docker on Mac/Windows
