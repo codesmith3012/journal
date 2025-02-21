@@ -20,7 +20,7 @@ public class UserService {
     public UserRepository userRepository;
 
     @Autowired
-    private EncDecService encDecService;
+    private EncDecServiceSymetric encDecServiceSymetric;
 
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 

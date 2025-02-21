@@ -11,7 +11,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
 // This is the service made is any body wants to implement the ssl security basically symmetric encryption
-public class EncDecService {
+public class EncDecServiceSymetric {
     public static final String SECRET_KEY="L9Hqu7yqNqRP8TpFztxHUQ==";
     public static final String AES="AES";
 
