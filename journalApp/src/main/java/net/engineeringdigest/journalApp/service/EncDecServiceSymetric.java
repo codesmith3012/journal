@@ -1,5 +1,7 @@
 package net.engineeringdigest.journalApp.service;
 
+import org.springframework.stereotype.Service;
+
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -11,6 +13,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
 // This is the service made is any body wants to implement the ssl security basically symmetric encryption
+@Service
 public class EncDecServiceSymetric {
     public static final String SECRET_KEY="L9Hqu7yqNqRP8TpFztxHUQ==";
     public static final String AES="AES";
