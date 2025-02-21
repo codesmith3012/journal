@@ -28,7 +28,7 @@ public class JournalApplication {
     public RedisTemplate redisTemplate() {
         return new RedisTemplate();
     }
-    // this is the key generator method which is used to generate the
+    // this is the key generator method which is used to generate the key for symmetric encryption
     KeyGenerator keyGenerator;
     {
         try {
