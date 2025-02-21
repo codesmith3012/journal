@@ -2,6 +2,7 @@ package net.engineeringdigest.journalApp.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import net.engineeringdigest.journalApp.entity.User;
+import net.engineeringdigest.journalApp.service.EncDecService;
 import net.engineeringdigest.journalApp.service.UserDetailServiceImpl;
 import net.engineeringdigest.journalApp.service.UserService;
 import net.engineeringdigest.journalApp.utilis.JwtUtil;
