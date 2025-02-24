@@ -16,10 +16,11 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
-  data:
+  spring:
     redis:
       port: 6379
-      host: localhost
+      host: journal-app
+      database: 0
 
 
 logging:
