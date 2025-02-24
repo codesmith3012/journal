@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8080
 
 spring:
   datasource:
@@ -7,8 +7,10 @@ spring:
     username: postgres
     password: 3217
     driver-class-name: org.postgresql.Driver
+  profiles:
+    active: dev
 
-    # OR use "host.docker.internal" if Redis is inside Docker on Mac/Windows
+  # OR use "host.docker.internal" if Redis is inside Docker on Mac/Windows
 
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
