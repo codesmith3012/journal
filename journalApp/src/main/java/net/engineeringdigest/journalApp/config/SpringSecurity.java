@@ -1,4 +1,5 @@
 package net.engineeringdigest.journalApp.config;
+
 import net.engineeringdigest.journalApp.filter.JwtFilter;
 import net.engineeringdigest.journalApp.service.UserDetailServiceImpl;
 import net.engineeringdigest.journalApp.utilis.JwtUtil;
@@ -15,23 +16,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-
 @Configuration
 public class SpringSecurity {
 
-    @Autowired
     private final UserDetailServiceImpl userDetailService;
-
-    @Autowired
     private final JwtUtil jwtUtil;
+    private final JwtFilter jwtFilter;
 
     @Autowired
-    private JwtFilter jwtFilter;
-
     public SpringSecurity(UserDetailServiceImpl userDetailService, JwtUtil jwtUtil, JwtFilter jwtFilter) {
         this.userDetailService = userDetailService;
-        this.jwtUtil=jwtUtil;
-        this.jwtFilter=jwtFilter;
+        this.jwtUtil = jwtUtil;
+        this.jwtFilter = jwtFilter;
     }
 
     @Bean
@@ -42,21 +38,23 @@ public class SpringSecurity {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("public/health-check").permitAll()
-                        .requestMatchers("public/login").permitAll()
+                        .requestMatchers("/public/health-check").permitAll()
+                        .requestMatchers("/public/login").permitAll()
                         .anyRequest().authenticated()
-                ).httpBasic(basic -> {});
-                  http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                )
+                .requiresChannel(channel -> channel
+                        .anyRequest().requiresSecure() // 🔐 Enforce HTTPS for all endpoints
+                )
+                .httpBasic(basic -> {});
 
+        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
-
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {

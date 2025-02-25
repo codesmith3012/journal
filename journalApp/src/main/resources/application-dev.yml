@@ -1,28 +1,32 @@
 server:
-  port: 8080
+  port: 8443  # HTTPS Port
+  ssl:
+    key-store: classpath:keystore.p12
+    key-store-password: 123456  # Replace with your actual password
+    key-store-type: PKCS12
+    key-alias: mysslcert
+    enabled: true
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/journal_entries
+    url: jdbc:postgresql://localhost:5432/journal_entries  # Use 'postgres' if running in Docker, 'localhost' if running locally
     username: postgres
     password: 3217
     driver-class-name: org.postgresql.Driver
-  profiles:
-    active: dev
-
-  # OR use "host.docker.internal" if Redis is inside Docker on Mac/Windows
 
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
-  spring:
-    redis:
-      port: 6379
-      host: journal-app
-      database: 0
 
+  data:
+    redis:
+      repositories:
+        enabled: false  # Disable Redis repositories if you are using Redis purely as a cache
+      host: journal-app  # Use 'journal-app' if running in Docker, 'localhost' if running locally
+      port: 6379
+      database: 0
 
 logging:
   level:
-    org.springframework.security: DEBUG
+    org.springframework.security: DEBUG  # Change to INFO or WARN in production
