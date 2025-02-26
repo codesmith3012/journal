@@ -43,6 +43,7 @@ public class SpringSecurity {
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/public/health-check", "/public/login").permitAll()
+                        .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/kafka/**").authenticated()
                         .anyRequest().authenticated()
                 )

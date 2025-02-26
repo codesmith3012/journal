@@ -23,7 +23,7 @@ spring:
     redis:
       repositories:
         enabled: false  # Disable Redis repositories if using Redis only as a cache
-      host: journal-app  # Redis is in Docker with name 'journal-app'
+      host: host.docker.internal # Redis is in Docker with name 'journal-app'
       port: 6379
       database: 0
 
@@ -38,6 +38,33 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"  # Enables all actuator endpoints
+  endpoint:
+    health:
+      show-details: always  # Shows detailed health info
+    info:
+      enabled: true
+    metrics:
+      enabled: true
+    env:
+      enabled: true
+    beans:
+      enabled: true
+  health:
+    redis:
+      enabled: true
+    db:
+      enabled: true
+  info:
+    app:
+      name: JournalApp
+      description: A secure journal application with Kafka, Redis, and PostgreSQL
+      version: 1.0.0
 
 logging:
   level:
