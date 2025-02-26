@@ -15,8 +15,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.firewall.DefaultHttpFirewall;
+import org.springframework.security.web.firewall.HttpFirewall;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 @Configuration
+@EnableWebSecurity
 public class SpringSecurity {
 
     private final UserDetailServiceImpl userDetailService;
@@ -38,12 +42,12 @@ public class SpringSecurity {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/public/health-check").permitAll()
-                        .requestMatchers("/public/login").permitAll()
+                        .requestMatchers("/public/health-check", "/public/login").permitAll()
+                        .requestMatchers("/kafka/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .requiresChannel(channel -> channel
-                        .anyRequest().requiresSecure() // 🔐 Enforce HTTPS for all endpoints
+                        .anyRequest().requiresSecure()
                 )
                 .httpBasic(basic -> {});
 
@@ -59,5 +63,12 @@ public class SpringSecurity {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public HttpFirewall allowUrlEncodedCharactersFirewall() {
+        DefaultHttpFirewall firewall = new DefaultHttpFirewall();
+        firewall.setAllowUrlEncodedSlash(true);
+        return firewall;
     }
 }

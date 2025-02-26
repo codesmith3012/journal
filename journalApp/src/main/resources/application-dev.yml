@@ -2,14 +2,14 @@ server:
   port: 8443  # HTTPS Port
   ssl:
     key-store: classpath:keystore.p12
-    key-store-password: 123456  # Replace with your actual password
+    key-store-password: 123456  # This is your SSL password
     key-store-type: PKCS12
     key-alias: mysslcert
     enabled: true
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/journal_entries  # Use 'postgres' if running in Docker, 'localhost' if running locally
+    url: jdbc:postgresql://localhost:5432/journal_entries
     username: postgres
     password: 3217
     driver-class-name: org.postgresql.Driver
@@ -17,16 +17,29 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: update  # Change to 'create' if auto-creating tables
 
   data:
     redis:
       repositories:
-        enabled: false  # Disable Redis repositories if you are using Redis purely as a cache
-      host: journal-app  # Use 'journal-app' if running in Docker, 'localhost' if running locally
+        enabled: false  # Disable Redis repositories if using Redis only as a cache
+      host: journal-app  # Redis is in Docker with name 'journal-app'
       port: 6379
       database: 0
+
+  kafka:
+    bootstrap-servers: localhost:9092  # Kafka is running inside Docker
+    security.protocol: PLAINTEXT  # No SSL for local Kafka setup
+    consumer:
+      group-id: journal-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
 logging:
   level:
     org.springframework.security: DEBUG  # Change to INFO or WARN in production
+    org.apache.kafka: INFO
